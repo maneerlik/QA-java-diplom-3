@@ -1,4 +1,4 @@
-package tests.registration;
+package tests;
 
 import extensions.WebDriverFactory;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -63,9 +63,9 @@ public class FailUserRegistrationTest {
         );
     }
 
+    @Test(expected = TimeoutException.class)
     @Epic(value = "Авторизация и регистрация пользователя")
     @Feature(value = "Регистрация пользователя")
-    @Test(expected = TimeoutException.class)
     @DisplayName("Неудачная регистрация пользователя")
     @Description("Попытка зарегистрировать пользователя с некорректным паролем")
     public void failUserRegistrationTest() {

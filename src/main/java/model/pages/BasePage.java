@@ -1,7 +1,6 @@
 package model.pages;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -40,16 +39,8 @@ public class BasePage {
     }
 
     // проверка видимости элемента
-    protected boolean isElementVisible(By element) {
+    protected boolean isVisibleElement(By element) {
         return driver.findElement(element).isDisplayed();
-    }
-
-
-    // ожидание загрузки элемента
-    protected void elementLoaded(By element) {
-        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
-                driver -> (driver.findElement(element).getText() != null
-                        && !driver.findElement(element).getText().isEmpty()));
     }
 
     // валидация страницы
@@ -57,7 +48,30 @@ public class BasePage {
         new WebDriverWait(driver, Duration.ofSeconds(5))
                 .until(ExpectedConditions.visibilityOfElementLocated(element));
 
-        return driver.getCurrentUrl().equals(url) && isElementVisible(element);
+        return driver.getCurrentUrl().equals(url) && isVisibleElement(element);
+    }
+
+    // ожидание загрузки страницы
+    protected void waitingLoadPage(String url, By element) {
+        new WebDriverWait(driver, Duration.ofSeconds(10)).until(
+                driver -> (driver.getCurrentUrl().equals(url) && driver.findElement(element).isDisplayed()));
+    }
+
+    // получает локатор объекта By в строковом представлении
+    protected String getXPath(By by) {
+        return by.toString().replace("By.xpath: ", "");
+    }
+
+    /*
+     * Получает значение координаты y/top элемента из DOMRect объекта скриптом JS
+     * document.evaluate("xpath", document, null, XPathResult.ANY_TYPE, null).iterateNext().getBoundingClientRect().top
+     */
+    protected double getTopPositionElement(By by) {
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        return (double) js.executeScript(String.format(
+               "return document.evaluate(\"%s\", document, null, XPathResult.ANY_TYPE, null)" +
+                       ".iterateNext().getBoundingClientRect().top", getXPath(by)
+        ));
     }
 
 }

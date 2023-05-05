@@ -1,4 +1,4 @@
-package tests.registration;
+package tests;
 
 import extensions.WebDriverFactory;
 import io.github.cdimascio.dotenv.Dotenv;
@@ -33,9 +33,9 @@ public class SuccessUserRegistrationTest {
         driver = WebDriverFactory.getDriver(Dotenv.load().get("REGISTRATION_URL"));
     }
 
+    @Test
     @Epic(value = "Авторизация и регистрация пользователя")
     @Feature(value = "Регистрация пользователя")
-    @Test
     @DisplayName("Успешная регистрация пользователя")
     public void successfulRegistrationUserTest() {
         assertTrue(new RegistrationPage(driver)

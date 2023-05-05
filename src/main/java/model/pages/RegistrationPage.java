@@ -1,6 +1,7 @@
 package model.pages;
 
 import io.qameta.allure.Step;
+import model.pages.components.LoginButtonComponent;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * @since   30.04.2023
  */
 public class RegistrationPage extends BasePage {
+
+    private final LoginButtonComponent loginButton;
 
     private final By registrationHeader = By.xpath("//h2[text()='Регистрация']");
     private final By nameInputField = By.xpath("//label[text()='Имя']/../input");
@@ -28,6 +31,7 @@ public class RegistrationPage extends BasePage {
      */
     public RegistrationPage(WebDriver driver) {
         super(driver);
+        this.loginButton = new LoginButtonComponent(driver);
     }
 
     @Step("Ввод имени: {name}")
@@ -59,12 +63,18 @@ public class RegistrationPage extends BasePage {
     // не используется
     @Step("Проверка валидатора пароля")
     public boolean isValidationPassword() {
-        return isElementVisible(passwordInputErrorText);
+        return isVisibleElement(passwordInputErrorText);
     }
 
     @Step("Нажатие на кнопку 'Зарегистрироваться'")
     public LoginPage clickRegistrationButton() {
         clickButton(registrationButton);
+        return new LoginPage(driver);
+    }
+
+    @Step("Нажатие на кнопку 'Войти'")
+    public LoginPage clickLoginButton() {
+        loginButton.clickLoginButton();
         return new LoginPage(driver);
     }
 
