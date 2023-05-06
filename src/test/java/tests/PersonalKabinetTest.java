@@ -32,11 +32,12 @@ public class PersonalKabinetTest extends BaseWeb {
     @Epic(value = "Авторизация и регистрация пользователя")
     @Feature(value = "Выход пользователя")
     @DisplayName("Проверка выхода пользователя из аккаунта")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.NORMAL)
     public void logoutUserTest() {
         assertTrue(new StellarburgersHomePage(driver)
                 .loginPersonalKabinet(user)
-                .transitionClick("Выход", new LoginPage(driver))
+                .click("Выход")
+                .goToPage(new LoginPage(driver))
                 .isValidatePage(LoginPage.class)
         );
     }
@@ -45,11 +46,12 @@ public class PersonalKabinetTest extends BaseWeb {
     @Epic(value = "Проверка интерфейса")
     @Feature(value = "Кнопка конструктор")
     @DisplayName("Проверка перехода при нажатии на кнопку 'Конструктор' в личном кабинете")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.MINOR)
     public void transitionCheckFromConstructorButtonTest() {
         assertTrue(new StellarburgersHomePage(driver)
                 .loginPersonalKabinet(user)
-                .transitionClick("Конструктор", new StellarburgersHomePage(driver))
+                .click("Конструктор")
+                .goToPage(new StellarburgersHomePage(driver))
                 .isValidatePage(StellarburgersHomePage.class)
         );
     }
@@ -58,11 +60,12 @@ public class PersonalKabinetTest extends BaseWeb {
     @Epic(value = "Проверка интерфейса")
     @Feature(value = "Логотип сайта")
     @DisplayName("Проверка перехода при нажатии на логотип сайта в личном кабинете")
-    @Severity(SeverityLevel.CRITICAL)
+    @Severity(SeverityLevel.MINOR)
     public void transitionCheckFromLogoTest() {
         assertTrue(new StellarburgersHomePage(driver)
                 .loginPersonalKabinet(user)
-                .transitionClick("Логотип сайта", new StellarburgersHomePage(driver))
+                .click("Логотип сайта")
+                .goToPage(new StellarburgersHomePage(driver))
                 .isValidatePage(StellarburgersHomePage.class)
         );
     }

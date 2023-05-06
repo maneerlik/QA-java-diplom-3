@@ -1,9 +1,8 @@
 package model.pages;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import java.util.Map;
+import static common.Constants.*;
 
 /**
  * Страница восстановления пароля https://stellarburgers.nomoreparties.site/forgot-password
@@ -13,11 +12,6 @@ import java.util.Map;
  */
 public class ForgotPasswordPage extends BasePage {
 
-    // кнопки
-    private final Map<String, By> buttons = Map.of(
-            "Войти", By.xpath("//a[text()='Войти']")
-    );
-
     /**
      * конструктор
      *
@@ -25,7 +19,8 @@ public class ForgotPasswordPage extends BasePage {
      */
     public ForgotPasswordPage(WebDriver driver) {
         super(driver);
-        setButtons(buttons);
+        setURL(FORGOT_PASSWORD_PAGE_URL);
+        setButtons(FORGOT_PASSWORD_PAGE_BUTTONS);
     }
 
 }

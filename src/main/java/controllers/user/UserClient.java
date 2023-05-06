@@ -1,6 +1,5 @@
 package controllers.user;
 
-import com.google.gson.Gson;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import model.pojo.User;

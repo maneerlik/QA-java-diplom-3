@@ -1,10 +1,8 @@
 package model.pages;
 
-import io.github.cdimascio.dotenv.Dotenv;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import java.util.Map;
+import static common.Constants.*;
 
 /**
  * Страница персонального кабинета https://stellarburgers.nomoreparties.site/account/profile
@@ -14,17 +12,6 @@ import java.util.Map;
  */
 public class PersonalKabinetPage extends BasePage {
 
-    // статический текст (идентификатор страницы)
-    private final By accountTextPane =
-            By.xpath("//p[text()='В этом разделе вы можете изменить свои персональные данные']");
-
-    // кнопки
-    private final Map<String, By> buttons = Map.of(
-            "Логотип сайта", By.xpath("//div[@class='AppHeader_header__logo__2D0X2']/a"),
-            "Конструктор", By.xpath("//p[text()='Конструктор']"),
-            "Выход", By.xpath("//button[text()='Выход']")
-    );
-
     /**
      * конструктор
      *
@@ -32,9 +19,9 @@ public class PersonalKabinetPage extends BasePage {
      */
     public PersonalKabinetPage(WebDriver driver) {
         super(driver);
-        setURL(Dotenv.load().get("PERSONAL_KABINET"));
-        setIdentifier(accountTextPane);
-        setButtons(buttons);
+        setURL(PERSONAL_KABINET_PAGE_URL);
+        setIdentifier(PERSONAL_KABINET_PAGE_TEXT_PANE);
+        setButtons(PERSONAL_KABINET_PAGE_BUTTONS);
     }
 
 }

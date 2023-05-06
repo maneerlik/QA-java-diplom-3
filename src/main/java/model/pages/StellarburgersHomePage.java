@@ -1,15 +1,15 @@
 package model.pages;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import io.qameta.allure.Step;
 import model.pojo.User;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Map;
+
+import static common.Constants.*;
 
 /**
  * Домашняя страница https://stellarburgers.nomoreparties.site
@@ -19,29 +19,6 @@ import java.util.Map;
  */
 public class StellarburgersHomePage extends BasePage {
 
-    // заголовок 'Соберите бургер' (идентификатор страницы)
-    private final By constructorHeader = By.xpath("//h1[text()='Соберите бургер']");
-    // контейнер ингредиентов, для проверки переходов конструктора
-    private final By ingredientContainer =
-            By.xpath("//div[@class='BurgerIngredients_ingredients__menuContainer__Xu3Mo']");
-
-    // заголовки разделов конструктора
-    private final Map<String, By> sections = Map.of(
-            "Булки", By.xpath("//h2[text()='Булки']"),
-            "Соусы", By.xpath("//h2[text()='Соусы']"),
-            "Начинки", By.xpath("//h2[text()='Начинки']")
-    );
-
-    // кнопки
-    private final Map<String, By> buttons = Map.of(
-            "Войти в аккаунт", By.xpath("//button[text()='Войти в аккаунт']"),
-            "Оформить заказ", By.xpath("//button[text()='Оформить заказ']"),
-            "Личный Кабинет", By.xpath("//p[text()='Личный Кабинет']"),
-            "Булки", By.xpath("//span[text()='Булки']"),
-            "Соусы", By.xpath("//span[text()='Соусы']"),
-            "Начинки", By.xpath("//span[text()='Начинки']")
-    );
-
     /**
      * конструктор
      *
@@ -49,9 +26,9 @@ public class StellarburgersHomePage extends BasePage {
      */
     public StellarburgersHomePage(WebDriver driver) {
         super(driver);
-        setURL(Dotenv.load().get("STELLARBURGERS_URL"));
-        setButtons(buttons);
-        setIdentifier(constructorHeader);
+        setURL(STELLARBURGERS_PAGE_URL);
+        setButtons(STELLARBURGERS_HOME_PAGE_BUTTONS);
+        setIdentifier(STELLARBURGERS_PAGE_CONSTRUCTOR_HEADER);
     }
 
     /*
@@ -60,20 +37,21 @@ public class StellarburgersHomePage extends BasePage {
      */
     @Step("Проверка прокрутки раздела '{section}' относительно области конструктора")
     public boolean isSectionPositionScrolled(String section) {
-        if(sections.containsKey(section)) {
+        Map<String, By> sections = STELLARBURGERS_HOME_PAGE_TITLES_OF_SECTION;
+        if(isFound(section, sections)) {
             return new WebDriverWait(driver, Duration.ofSeconds(5)).until(
-                    drv -> (Math.abs(drv.findElement(ingredientContainer).getLocation().y -
+                    drv -> (Math.abs(drv.findElement(STELLARBURGERS_PAGE_INGREDIENT_CONTAINER).getLocation().y -
                             drv.findElement(sections.get(section)).getLocation().y) < 0.3));
-        } else {
-            throw new NoSuchElementException("Элемент не был найден");
-        }
+        } else return false;
     }
 
     @Step("Авторизоваться и перейти в личный кабинет")
     public PersonalKabinetPage loginPersonalKabinet(User user) {
-        return transitionClick("Войти в аккаунт", new LoginPage(driver))
+        return click("Войти в аккаунт")
+                .goToPage(new LoginPage(driver))
                 .logIn(user)
-                .transitionClick("Личный Кабинет", new PersonalKabinetPage(driver));
+                .click("Личный Кабинет")
+                .goToPage(new PersonalKabinetPage(driver));
     }
 
 }

@@ -50,7 +50,7 @@ public class WebDriverFactory {
         driver.manage().window().maximize();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(WebDriverConfig.WAIT_TEN_SECONDS_TIMEOUT));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(WebDriverConfig.WAIT_FIVE_SECONDS_TIMEOUT));
-        driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(WebDriverConfig.WAIT_TEN_SECONDS_TIMEOUT));
+        // driver.manage().timeouts().scriptTimeout(Duration.ofSeconds(WebDriverConfig.WAIT_TEN_SECONDS_TIMEOUT));
         driver.get(url);
 
         return driver;

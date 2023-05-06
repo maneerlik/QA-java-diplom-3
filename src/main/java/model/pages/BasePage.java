@@ -3,7 +3,6 @@ package model.pages;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,25 +34,16 @@ public class BasePage {
         this.driver = driver;
     }
 
-    /*
-     * Нажать на кнопку с переходом на другую страницу.
-     * Реализация клика по кнопке с переходом на следующую страницу. Возвращает POM объект.
-     */
-    @Step("Нажать кнопку '{button}' и перейти на страницу '{clazz}'")
-    public <T extends BasePage> T transitionClick(String button, T page) {
-        click(button);
-        return page;
-    }
-
     // нажать на кнопку из справочника
     @Step("Нажать кнопку '{button}'")
-    public void click(String button) {
+    public BasePage click(String button) {
         if(isFound(button, buttons)) {
             By btn = buttons.get(button);
             new WebDriverWait(driver, Duration.ofSeconds(5))
                     .until(ExpectedConditions.elementToBeClickable(btn));
             driver.findElement(btn).click();
         }
+        return this;
     }
 
     // заполнить поле
@@ -76,6 +66,11 @@ public class BasePage {
         return driver.getCurrentUrl().equals(url) && isVisibleElement(identifier);
     }
 
+    @Step("Переход на страницу '{page}'")
+    public <T extends BasePage> T goToPage(T page) {
+        return page;
+    }
+
     // проверка видимости элемента
     private boolean isVisibleElement(By element) {
         new WebDriverWait(driver, Duration.ofSeconds(5))
@@ -83,12 +78,13 @@ public class BasePage {
         return driver.findElement(element).isDisplayed();
     }
 
-    private boolean isFound(String key, Map<String, By> elements) {
+    protected boolean isFound(String key, Map<String, By> elements) {
         try {
             return elements.containsKey(key);
-        } catch(NoSuchElementException e) {
+        } catch(NullPointerException e) {
             Logger log = Logger.getLogger(BasePage.class.getName());
-            log.info(Dotenv.load().get("NO_SUCH_ELEMENT_EXCEPTION"));
+            log.info(key);
+            log.info(Dotenv.load().get("NULL_POINTER_EXCEPTION"));
         }
         return false;
     }
@@ -109,7 +105,7 @@ public class BasePage {
         this.identifier = identifier;
     }
 
-    // оставил часть предыдущей реализации проверки переходов на JS для себя
+    // оставил часть предыдущей реализации - на память о боли :)
 //    // получает локатор объекта By в строковом представлении
 //    protected String getXPath(By by) {
 //        return by.toString().replace("By.xpath: ", "");
@@ -125,6 +121,16 @@ public class BasePage {
 //               "return document.evaluate(\"%s\", document, null, XPathResult.ANY_TYPE, null)" +
 //                       ".iterateNext().getBoundingClientRect().top", getXPath(by)
 //        ));
+//    }
+
+//    /*
+//     * Нажать на кнопку с переходом на другую страницу.
+//     * Реализация клика по кнопке с переходом на следующую страницу. Возвращает POM объект.
+//     */
+//    @Step("Нажать кнопку '{button}' и перейти на страницу '{clazz}'")
+//    public <T extends BasePage> T transitionClick(String button, T page) {
+//        click(button);
+//        return page;
 //    }
 
 }

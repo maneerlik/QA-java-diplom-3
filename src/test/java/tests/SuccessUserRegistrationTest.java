@@ -1,7 +1,6 @@
 package tests;
 
 import extensions.WebDriverFactory;
-import io.github.cdimascio.dotenv.Dotenv;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -14,6 +13,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static common.Constants.REGISTRATION_PAGE_URL;
 import static data.RandomUser.randomValidUser;
 import static org.junit.Assert.assertTrue;
 
@@ -29,7 +29,7 @@ public class SuccessUserRegistrationTest extends BaseWeb {
     @Before
     public void setup() {
         user = randomValidUser();
-        driver = WebDriverFactory.getDriver(Dotenv.load().get("REGISTRATION_URL"));
+        driver = WebDriverFactory.getDriver(REGISTRATION_PAGE_URL);
     }
 
     @Test
@@ -40,7 +40,8 @@ public class SuccessUserRegistrationTest extends BaseWeb {
     public void successfulRegistrationUserTest() {
         assertTrue(new RegistrationPage(driver)
                 .fillRegistrationForm(List.of(user.getName(), user.getEmail(), user.getPassword()))
-                .transitionClick("Зарегистрироваться", new LoginPage(driver))
+                .click("Зарегистрироваться")
+                .goToPage(new LoginPage(driver))
                 .isValidatePage(LoginPage.class)
         );
     }

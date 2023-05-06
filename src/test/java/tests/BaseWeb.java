@@ -2,12 +2,12 @@ package tests;
 
 import controllers.user.UserClient;
 import extensions.WebDriverFactory;
-import io.github.cdimascio.dotenv.Dotenv;
 import model.pojo.User;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.WebDriver;
 
+import static common.Constants.STELLARBURGERS_PAGE_URL;
 import static data.RandomUser.randomValidUser;
 import static steps.BaseSteps.delete;
 
@@ -26,7 +26,7 @@ public class BaseWeb {
     public void setup() {
         user = randomValidUser();
         new UserClient().register(user);
-        driver = WebDriverFactory.getDriver(Dotenv.load().get("STELLARBURGERS_URL"));
+        driver = WebDriverFactory.getDriver(STELLARBURGERS_PAGE_URL);
     }
 
     @After

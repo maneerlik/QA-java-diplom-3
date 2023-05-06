@@ -1,7 +1,6 @@
 package tests;
 
 import extensions.WebDriverFactory;
-import io.github.cdimascio.dotenv.Dotenv;
 import io.qameta.allure.*;
 import io.qameta.allure.junit4.DisplayName;
 import model.pages.LoginPage;
@@ -16,8 +15,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static common.Constants.REGISTRATION_PAGE_URL;
 import static data.RandomUser.randomPassword;
 import static data.RandomUser.randomUserWithoutPassword;
+
 
 /**
  * Тест неудачная регистрация пользователя
@@ -34,7 +35,7 @@ public class FailUserRegistrationTest extends BaseWeb {
     @Before
     public void setup() {
         user = randomUserWithoutPassword();
-        driver = WebDriverFactory.getDriver(Dotenv.load().get("REGISTRATION_URL"));
+        driver = WebDriverFactory.getDriver(REGISTRATION_PAGE_URL);
     }
 
     /**
@@ -66,7 +67,8 @@ public class FailUserRegistrationTest extends BaseWeb {
         user.setPassword(password); // заменяет пароль пользователя
         new RegistrationPage(driver)
                 .fillRegistrationForm(List.of(user.getName(), user.getEmail(), user.getPassword()))
-                .transitionClick("Зарегистрироваться", new LoginPage(driver))
+                .click("Зарегистрироваться")
+                .goToPage(new LoginPage(driver))
                 .isValidatePage(LoginPage.class); // ожидает перехода на страницу логина после успешной регистрации
     }
 

@@ -53,8 +53,7 @@ public class ConstructorTest extends BaseWeb {
         StellarburgersHomePage page = new StellarburgersHomePage(driver);
             page.click(firstButton);
             page.click(secondButton);
-            assertTrue(page.isSectionPositionScrolled(section)
-        );
+            assertTrue(page.isSectionPositionScrolled(section) && page.isVisibleButton(secondButton));
     }
 
 }

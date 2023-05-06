@@ -1,6 +1,5 @@
 package tests;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
 import io.qameta.allure.Severity;
@@ -12,6 +11,7 @@ import model.pages.RegistrationPage;
 import model.pages.StellarburgersHomePage;
 import org.junit.Test;
 
+import static common.Constants.*;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -29,7 +29,8 @@ public class LoginUserTest extends BaseWeb {
     @Severity(SeverityLevel.CRITICAL)
     public void authFromTheSignInAccountBtnFromTheMainPageTest() {
         StellarburgersHomePage homePage = new StellarburgersHomePage(driver);
-        assertTrue((homePage.transitionClick("Войти в аккаунт", new LoginPage(driver))
+        assertTrue((homePage.click("Войти в аккаунт")
+                .goToPage(new LoginPage(driver))
                 .logIn(user)
                 .isValidatePage(StellarburgersHomePage.class)) && homePage.isVisibleButton("Оформить заказ")
         );
@@ -42,7 +43,8 @@ public class LoginUserTest extends BaseWeb {
     @Severity(SeverityLevel.CRITICAL)
     public void authFromThePersonalKabinetBtnFromTheMainPageTest() {
         StellarburgersHomePage homePage = new StellarburgersHomePage(driver);
-        assertTrue((homePage.transitionClick("Личный Кабинет", new LoginPage(driver))
+        assertTrue((homePage.click("Личный Кабинет")
+                .goToPage(new LoginPage(driver))
                 .logIn(user)
                 .isValidatePage(StellarburgersHomePage.class)) && homePage.isVisibleButton("Оформить заказ")
         );
@@ -56,9 +58,11 @@ public class LoginUserTest extends BaseWeb {
     public void authFromTheLoginBtnFromTheRegistrationPageTest() {
         StellarburgersHomePage homePage = new StellarburgersHomePage(driver);
         LoginPage loginPage = new LoginPage(driver);
-        driver.get(Dotenv.load().get("LOGIN_URL"));
-        assertTrue((loginPage.transitionClick("Зарегистрироваться", new RegistrationPage(driver))
-                .transitionClick("Войти", new LoginPage(driver))
+        driver.get(LOGIN_PAGE_URL);
+        assertTrue((loginPage.click("Зарегистрироваться")
+                .goToPage(new RegistrationPage(driver))
+                .click("Войти")
+                .goToPage(new LoginPage(driver))
                 .logIn(user)
                 .isValidatePage(StellarburgersHomePage.class)) && homePage.isVisibleButton("Оформить заказ")
         );
@@ -73,10 +77,11 @@ public class LoginUserTest extends BaseWeb {
         StellarburgersHomePage homePage = new StellarburgersHomePage(driver);
         ForgotPasswordPage forgotPasswordPage = new ForgotPasswordPage(driver);
         LoginPage loginPage = new LoginPage(driver);
-
-        driver.get(Dotenv.load().get("LOGIN_URL"));
-        assertTrue((loginPage.transitionClick("Восстановить пароль", forgotPasswordPage)
-                .transitionClick("Войти", loginPage)
+        driver.get(LOGIN_PAGE_URL);
+        assertTrue((loginPage.click("Восстановить пароль")
+                .goToPage(forgotPasswordPage)
+                .click("Войти")
+                .goToPage(loginPage)
                 .logIn(user)
                 .isValidatePage(StellarburgersHomePage.class)) && homePage.isVisibleButton("Оформить заказ")
         );
