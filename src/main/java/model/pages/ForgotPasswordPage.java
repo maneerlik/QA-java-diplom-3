@@ -1,8 +1,9 @@
 package model.pages;
 
-import io.qameta.allure.Step;
-import model.pages.components.LoginButtonComponent;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+import java.util.Map;
 
 /**
  * Страница восстановления пароля https://stellarburgers.nomoreparties.site/forgot-password
@@ -12,7 +13,10 @@ import org.openqa.selenium.WebDriver;
  */
 public class ForgotPasswordPage extends BasePage {
 
-    private final LoginButtonComponent loginButton;
+    // кнопки
+    private final Map<String, By> buttons = Map.of(
+            "Войти", By.xpath("//a[text()='Войти']")
+    );
 
     /**
      * конструктор
@@ -21,13 +25,7 @@ public class ForgotPasswordPage extends BasePage {
      */
     public ForgotPasswordPage(WebDriver driver) {
         super(driver);
-        this.loginButton = new LoginButtonComponent(driver);
-    }
-
-    @Step("Нажатие на кнопку 'Войти'")
-    public LoginPage clickLoginButton() {
-        loginButton.clickLoginButton();
-        return new LoginPage(driver);
+        setButtons(buttons);
     }
 
 }

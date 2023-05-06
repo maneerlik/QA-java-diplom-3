@@ -6,6 +6,8 @@ import model.pojo.User;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.Map;
+
 /**
  * Страница логина пользователя https://stellarburgers.nomoreparties.site/login
  *
@@ -14,12 +16,21 @@ import org.openqa.selenium.WebDriver;
  */
 public class LoginPage extends BasePage {
 
+    // заголовок страницы (идентификатор страницы)
     private final By loginHeader = By.xpath("//h2[text()='Вход']");
-    private final By emailInputField = By.xpath("//label[text()='Email']/following-sibling::input");
-    private final By passwordInputField = By.xpath("//label[text()='Пароль']/following-sibling::input");
-    private final By loginButton = By.xpath("//button[text()='Войти']");
-    private final By registerButton = By.xpath("//a[text()='Зарегистрироваться']");
-    private final By forgotPasswordButton = By.xpath("//a[text()='Восстановить пароль']");
+
+    // кнопки
+    private final Map<String, By> buttons = Map.of(
+            "Войти", By.xpath("//button[text()='Войти']"),
+            "Зарегистрироваться", By.xpath("//a[text()='Зарегистрироваться']"),
+            "Восстановить пароль", By.xpath("//a[text()='Восстановить пароль']")
+    );
+
+    // поля ввода
+    private final Map<String, By> fields = Map.of(
+            "Email", By.xpath("//label[text()='Email']/following-sibling::input"),
+            "Пароль", By.xpath("//label[text()='Пароль']/following-sibling::input")
+    );
 
     /**
      * конструктор
@@ -28,48 +39,17 @@ public class LoginPage extends BasePage {
      */
     public LoginPage(WebDriver driver) {
         super(driver);
+        setURL(Dotenv.load().get("LOGIN_URL"));
+        setButtons(buttons);
+        setFields(fields);
+        setIdentifier(loginHeader);
     }
 
-    @Step("Ввод электронного адреса': {email}")
-    public LoginPage fillEmail(String email) {
-        fillTheInputField(emailInputField, email);
-        return this;
-    }
-
-    @Step("Ввод пароля: {password}")
-    public LoginPage fillPassword(String password) {
-        fillTheInputField(passwordInputField, password);
-        return this;
-    }
-
-    @Step("Нажатие на кнопку 'Войти'")
-    public StellarburgersHomePage clickLoginButton() {
-        clickButton(loginButton);
-        return new StellarburgersHomePage(driver);
-    }
-
-    @Step("Нажатие на кнопку 'Зарегистрироваться'")
-    public RegistrationPage clickRegisterButton() {
-        clickButton(registerButton);
-        return new RegistrationPage(driver);
-    }
-
-    @Step("Нажатие на кнопку 'Восстановить пароль'")
-    public ForgotPasswordPage clickForgotPasswordButton() {
-        clickButton(forgotPasswordButton);
-        return new ForgotPasswordPage(driver);
-    }
-
-    @Step("Валидация страницы логина")
-    public boolean isValidLoginPage() {
-        return isValidPage(Dotenv.load().get("LOGIN_URL"), loginHeader);
-    }
-
-    @Step("Заполнение формы авторизации")
-    public StellarburgersHomePage fillAutorizationForm(User user) {
-        fillEmail(user.getEmail());
-        fillPassword(user.getPassword());
-        return clickLoginButton();
+    @Step("Авторизоваться")
+    public StellarburgersHomePage logIn(User user) {
+        fill("Email", user.getEmail());
+        fill("Пароль", user.getPassword());
+        return transitionClick("Войти", new StellarburgersHomePage(driver));
     }
 
 }

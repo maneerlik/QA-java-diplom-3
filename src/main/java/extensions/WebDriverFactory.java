@@ -34,14 +34,14 @@ public class WebDriverFactory {
                 // --remote-allow-origins=* - для решения проблем с версией 111
                 driver = new ChromeDriver(new ChromeOptions()
                         .addArguments("--remote-allow-origins=*")
-                        // .addArguments("--headless")
+                        .addArguments("--headless")
                 );
                 break;
             case "yandex":
                 System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver");
                 driver = new ChromeDriver(new ChromeOptions()
                         .setBinary("C:/Users/smirn/AppData/Local/Yandex/YandexBrowser/Application/browser.exe")
-                        // .addArguments("--headless")
+                        .addArguments("--headless")
                 );
                 break;
             default: throw new RuntimeException("Browser " + browserName + " not exist");
