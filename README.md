@@ -16,7 +16,7 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Содержание</summary>
+  <summary>Содержание:</summary>
   <ol>
     <li><a href="#about-the-project">О проекте</a></li>
     <li><a href="#usage">Запуск</a></li>
