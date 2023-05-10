@@ -16,17 +16,18 @@
 
 <!-- TABLE OF CONTENTS -->
 <details>
-  <summary>Table of Contents</summary>
+  <summary>Содержание</summary>
   <ol>
-    <li><a href="#about-the-project">About The Project</a></li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#classes">Classes</a></li>
-    <li><a href="#tests">Tests</a></li>
-    <li><a href="#tech-stack">Tech Stack</a></li>
+    <li><a href="#about-the-project">О проекте</a></li>
+    <li><a href="#usage">Запуск</a></li>
+    <li><a href="#classes">Классы</a></li>
+    <li><a href="#tests">Тесты</a></li>
+    <li><a href="#tech-stack">Стек</a></li>
   </ol>
 </details>
 
-## About The Project
+## О проекте
+<a name="about-the-project"></a>
 Необходимо протестировать UI <a href="https://stellarburgers.nomoreparties.site/">Stellar Burgers</a>.
 Тесты запустить в «Google Chrome" и «Яндекс.Браузере». Подключить Allure-отчёт.
 
@@ -56,7 +57,8 @@
 <b>Выход из аккаунта:</b>
 * выход по кнопке «Выйти» в личном кабинете.
 
-## Usage
+## Запуск
+<a name="usage"></a>
 Для выбора браузера, в котором необходимо запустить тесты, в файле `.env` указать наименование браузера в формате var=value (н.п. `BROWSER=chrome` или `BROWSER=yandex`).
 Для запуска тестов выполнить команду
 ```
@@ -67,21 +69,24 @@ mvn clean test
 mvn allure:serve
 ``` 
 
-## Classes
+## Классы
+<a name="classes"></a>
 * `Constants` - константы, описывающие POM
 * `WebDriverConfig` - конфигурация WebDriver-а
 * `WebDriverFactory` - инстанцирование WebDriver-а
 * `BasePage` - реализация базового поведения POM
 * `BaseWeb` - базовый тестовый класс
 
-## Tests
+## Тесты
+<a name="tests"></a>
 * `ConstructorTest` - проверка переходов конструктора
 * `FailUserRegistrationTest` - регистрация пользователя с некорректными данными
 * `LoginUserTest` - авторизация пользователя
 * `PersonalKabinetTest` - тестирование персонального кабинета
 * `SuccessUserRegistrationTest` - успешная регистрация пользователя
 
-## Tech Stack
+## Стек
+<a name="tech-stack"></a>
 [![Java11][java]][javadoc-url]
 [![Selenium][selenium]][selenium-url]
 [![Allure][Allure]][Allure-url]
