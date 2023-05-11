@@ -94,7 +94,7 @@ mvn allure:serve
 [![JUnit4][junit]][junit-url]
 [![REST Assured][REST_Assured]][rest-assured-url]
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">вверх</a>)</p>
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
