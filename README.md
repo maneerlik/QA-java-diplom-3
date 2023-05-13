@@ -88,11 +88,11 @@ mvn allure:serve
 ## Стек
 <a name="tech-stack"></a>
 [![Java11][java]][javadoc-url]
-[![Selenium][selenium]][selenium-url]
-[![Allure][Allure]][Allure-url]
 [![Git][git]][git-url]
+[![Selenium][selenium]][selenium-url]
 [![JUnit4][junit]][junit-url]
 [![REST Assured][REST_Assured]][rest-assured-url]
+[![Allure][Allure]][Allure-url]
 
 <p align="right">(<a href="#readme-top">вверх</a>)</p>
 
